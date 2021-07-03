@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:receipes_app/views/home_view.dart';
+import 'package:receipes_app/views/onBoarding_view.dart';
 
 void main() {
   runApp(ReceipeApp());
@@ -10,7 +10,13 @@ class ReceipeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeView(),
+      initialRoute: OnBoardingView.id,
+      routes: {
+        OnBoardingView.id: (context) => OnBoardingView(),
+        // HomeView.id: (context) => HomeView(
+        //         //       categories: [],
+        //         //     )
+      },
     );
   }
 }
