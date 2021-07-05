@@ -2,27 +2,59 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:receipes_app/modals/category.dart';
+import 'package:receipes_app/modals/meal.dart';
+import 'package:receipes_app/modals/receipe.dart';
 
 class NetworkAdapter {
-  static const String baseUrl =
-      'https://www.themealdb.com/api/json/v1/1/categories.php';
-
-  //Category category = Category();
+  static const String baseUrl = 'https://www.themealdb.com/api/json/v1/1/';
 
   Future<dynamic> getCategories() async {
+    String categoryId = baseUrl + 'categories.php';
     List<Category> _categories = [];
-    Uri request = Uri.parse(baseUrl);
+    // print(jsonDecode(response.body));
+    Map<String, dynamic> values = await getData(categoryId);
+    List<dynamic> data = values['categories'];
+    data.forEach((element) {
+      //  print(element);
+      _categories.add(
+        Category.fromJson(element),
+      );
+    });
+    return _categories;
+  }
+
+  Future<dynamic> getDishes(String? category) async {
+    String mealId = baseUrl + 'filter.php?i=' + category!;
+    List<Meal> _meals = [];
+    Map<String, dynamic> values = await getData(mealId);
+    List<dynamic> data = values['meals'];
+    data.forEach((element) {
+      _meals.add(
+        Meal.fromJson(element),
+      );
+    });
+    return _meals;
+  }
+
+  Future<dynamic> getReceipe(String? receipe) async {
+    String receipeId = baseUrl + 'lookup.php?i=' + receipe!;
+    late Receipe _receipe;
+    Map<String, dynamic> values = await getData(receipeId);
+    List<dynamic> data = values['meals'];
+    data.forEach((element) {
+      _receipe = Receipe.fromJson(element);
+    });
+    print(_receipe.receipeIngredient1);
+    return _receipe;
+  }
+
+  Future<dynamic> getData(String url) async {
+    Uri uri = Uri.parse(url);
     try {
-      http.Response response = await http.get(request);
-      // print(jsonDecode(response.body));
+      http.Response response = await http.get(uri);
       if (response.statusCode == 200) {
         Map<String, dynamic> values = jsonDecode(response.body);
-        List<dynamic> data = values['categories'];
-        data.forEach((element) {
-          print(element);
-          _categories.add(Category.fromJson(element));
-        });
-        return _categories;
+        return values;
       } else {
         throw 'Unable to fetch request';
       }

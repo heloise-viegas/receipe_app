@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:receipes_app/constants.dart';
 import 'package:receipes_app/modals/category.dart';
+import 'package:receipes_app/modals/meal.dart';
+import 'package:receipes_app/services/networkAdapter.dart';
+import 'package:receipes_app/ui%20components/reusableCard.dart';
+import 'package:receipes_app/views/meal_view.dart';
 
 class HomeView extends StatelessWidget {
   static const String id = 'Home';
@@ -10,6 +14,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NetworkAdapter networkAdapter = NetworkAdapter();
+    List<Meal> meals = [];
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -40,53 +46,24 @@ class HomeView extends StatelessWidget {
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 return ReusableCard(
-                  categImg: categories[index].catImg,
-                  categName: categories[index].catName,
+                  isMeal: false,
+                  itemImg: categories[index].catImg,
+                  itemName: categories[index].catName,
+                  onTapped: () async {
+                    meals = await networkAdapter
+                        .getDishes(categories[index].catName);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return MealView(meals: meals);
+                      }),
+                    );
+                  },
                 );
               },
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class ReusableCard extends StatelessWidget {
-  late String? categName;
-  late String? categImg;
-  ReusableCard({required this.categName, required this.categImg});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Colors.black38,
-          offset: Offset(2, 2),
-          blurRadius: 10,
-          spreadRadius: 1,
-        ),
-        BoxShadow(
-          color: Colors.white.withOpacity(0.85),
-          offset: Offset(-2, -2),
-          blurRadius: 8,
-          spreadRadius: 2,
-        ),
-      ], borderRadius: BorderRadius.circular(50), color: Colors.grey.shade300),
-      child: Column(
-        children: [
-          Image.network(
-            categImg!,
-            fit: BoxFit.fill,
-            // height: 50,
-            // width: 50,
-          ),
-          Text(
-            categName!,
-            style: Constants.kBtnTextStyle,
-          )
-        ],
       ),
     );
   }
