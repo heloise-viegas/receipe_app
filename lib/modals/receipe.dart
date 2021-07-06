@@ -1,4 +1,4 @@
-class Receipe {
+class Recipe {
   String? receipeId;
   String? receipeName;
   String? receipeDrinkAlternate;
@@ -53,7 +53,7 @@ class Receipe {
   String? receipeCreativeCommonsConfirmed;
   String? receipeDateModified;
 
-  Receipe({
+  Recipe({
     this.receipeId,
     this.receipeName,
     this.receipeDrinkAlternate,
@@ -109,8 +109,8 @@ class Receipe {
     this.receipeDateModified,
   });
 
-  factory Receipe.fromJson(Map<String, dynamic> json) {
-    return Receipe(
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
       receipeId: json['idMeal'],
       receipeName: json['strMeal'],
       receipeDrinkAlternate: json['strDrinkAlternate'],
@@ -165,5 +165,31 @@ class Receipe {
       receipeCreativeCommonsConfirmed: json['strCreativeCommonsConfirmed'],
       receipeDateModified: json['dateModified'],
     );
+  }
+
+  List<String?> getList() {
+    List<String?> values = [];
+
+    values.add(receipeMeasure1! + ' ' + receipeIngredient1!);
+    values.add(receipeMeasure2! + ' ' + receipeIngredient2!);
+    values.add(receipeMeasure3! + ' ' + receipeIngredient3!);
+    values.add(receipeMeasure4! + ' ' + receipeIngredient4!);
+    values.add(receipeMeasure5! + ' ' + receipeIngredient5!);
+    values.add(receipeMeasure6! + ' ' + receipeIngredient6!);
+    values.add(receipeMeasure7! + ' ' + receipeIngredient7!);
+    values.add(receipeMeasure8! + ' ' + receipeIngredient8!);
+    values.add(receipeMeasure9! + ' ' + receipeIngredient9!);
+    values.add(receipeMeasure10! + ' ' + receipeIngredient10!);
+    values.add(receipeMeasure11! + ' ' + receipeIngredient11!);
+    values.add(receipeMeasure12! + ' ' + receipeIngredient12!);
+    values.add(receipeMeasure13! + ' ' + receipeIngredient13!);
+    values.add(receipeMeasure14! + ' ' + receipeIngredient14!);
+    values.add(receipeMeasure15! + ' ' + receipeIngredient15!);
+    values.add(receipeMeasure16! + ' ' + receipeIngredient16!);
+    values.add(receipeMeasure17! + ' ' + receipeIngredient17!);
+    values.add(receipeMeasure18! + ' ' + receipeIngredient18!);
+    values.add(receipeMeasure19! + ' ' + receipeIngredient19!);
+    values.add(receipeMeasure20! + ' ' + receipeIngredient20!);
+    return values;
   }
 }

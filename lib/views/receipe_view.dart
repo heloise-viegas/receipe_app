@@ -3,44 +3,47 @@ import 'package:receipes_app/modals/receipe.dart';
 import 'package:receipes_app/ui%20components/reusableCard.dart';
 
 class ReceipeView extends StatelessWidget {
-  final Receipe receipe;
+  final Recipe receipe;
   ReceipeView({required this.receipe});
 
   @override
   Widget build(BuildContext context) {
+    List<String?> ingredients = receipe.getList();
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade300,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  ReusableCard(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Hero(
+                  tag: receipe.receipeName.toString(),
+                  child: ReusableCard(
                     isMeal: true,
                     itemName: receipe.receipeName,
                     itemImg: receipe.receipeImg,
                     onTapped: () {},
                   ),
-                  Text(receipe.receipeMeasure1! +
-                      ' ' +
-                      receipe.receipeIngredient1!),
-                  Text(receipe.receipeMeasure2! +
-                      ' ' +
-                      receipe.receipeIngredient2!),
-                  Text(receipe.receipeMeasure3! +
-                      ' ' +
-                      receipe.receipeIngredient3!),
-                  Text(receipe.receipeMeasure4! +
-                      ' ' +
-                      receipe.receipeIngredient4!),
-                  Text(receipe.receipeMeasure5! +
-                      ' ' +
-                      receipe.receipeIngredient5!),
-                ],
-              )),
+                ),
+                Container(
+                  height: 300,
+                  width: 300,
+                  child: ListView.builder(
+                      itemCount: ingredients.length,
+                      itemBuilder: (context, i) {
+                        if (ingredients[i] == '' || ingredients[i] == null) {
+                          return Text('1');
+                        } else {
+                          return Text(ingredients[i]!);
+                        }
+                      }),
+                ),
+                Text(receipe.receipeInstructions!),
+                Text(receipe.receipeYoutube!),
+              ],
+            ),
+          ),
         ),
       ),
     );

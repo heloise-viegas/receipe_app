@@ -12,7 +12,7 @@ class MealView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NetworkAdapter networkAdapter = NetworkAdapter();
-    Receipe receipe;
+    Recipe receipe;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade300,
@@ -24,20 +24,23 @@ class MealView extends StatelessWidget {
             child: ListView.builder(
                 itemCount: meals.length,
                 itemBuilder: (context, index) {
-                  return ReusableCard(
-                    isMeal: true,
-                    itemName: meals[index].mealName,
-                    itemImg: meals[index].mealImg,
-                    onTapped: () async {
-                      receipe =
-                          await networkAdapter.getReceipe(meals[index].mealId);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return ReceipeView(receipe: receipe);
-                        }),
-                      );
-                    },
+                  return Hero(
+                    tag: meals[index].mealName.toString(),
+                    child: ReusableCard(
+                      isMeal: true,
+                      itemName: meals[index].mealName,
+                      itemImg: meals[index].mealImg,
+                      onTapped: () async {
+                        receipe = await networkAdapter
+                            .getReceipe(meals[index].mealId);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return ReceipeView(receipe: receipe);
+                          }),
+                        );
+                      },
+                    ),
                   );
                 }),
           ),

@@ -38,13 +38,13 @@ class NetworkAdapter {
 
   Future<dynamic> getReceipe(String? receipe) async {
     String receipeId = baseUrl + 'lookup.php?i=' + receipe!;
-    late Receipe _receipe;
+    late Recipe _receipe;
     Map<String, dynamic> values = await getData(receipeId);
     List<dynamic> data = values['meals'];
     data.forEach((element) {
-      _receipe = Receipe.fromJson(element);
+      _receipe = Recipe.fromJson(element);
     });
-    print(_receipe.receipeIngredient1);
+    // print(_receipe.receipeIngredient1);
     return _receipe;
   }
 
